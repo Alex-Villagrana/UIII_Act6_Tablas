@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar Empleado{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark"><h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Actualizar Empleado</h5></div>
+    <div class="card-body">
+        <form method="post" action="{% url 'realizar_actualizacion_empleado' pk=empleado.pk %}"> {% csrf_token %}
+            <div class="mb-3"><label for="nombre" class="form-label">Nombre:</label><input type="text" class="form-control" id="nombre" name="nombre" value="{{ empleado.nombre }}" required></div>
+            <div class="mb-3"><label for="email" class="form-label">Email:</label><input type="email" class="form-control" id="email" name="email" value="{{ empleado.email }}" required></div>
+            <div class="mb-3"><label for="telefono" class="form-label">Teléfono:</label><input type="text" class="form-control" id="telefono" name="telefono" value="{{ empleado.telefono }}"></div>
+            <div class="mb-3"><label for="direccion" class="form-label">Dirección:</label><textarea class="form-control" id="direccion" name="direccion" rows="3">{{ empleado.direccion }}</textarea></div>
+            <div class="mb-3"><label for="clientes_atendidos" class="form-label">Clientes Atendidos:</label><select class="form-control" id="clientes_atendidos" name="clientes_atendidos" multiple>{% for cliente in clientes %}<option value="{{ cliente.pk }}" {% if cliente in empleado.clientes_atendidos.all %}selected{% endif %}>{{ cliente.nombre }}</option>{% endfor %}</select></div>
+            <div class="form-check mb-4"><input class="form-check-input" type="checkbox" name="activo" id="activo" {% if empleado.activo %}checked{% endif %}><label class="form-check-label" for="activo">Activo</label></div>
+            <button type="submit" class="btn btn-success"><i class="bi bi-check-circle me-2"></i>Actualizar Empleado</button>
+            <a href="{% url 'ver_empleados' %}" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

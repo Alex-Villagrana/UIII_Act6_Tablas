@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Borrar Venta{% endblock %}
+{% block content %}
+<div class="alert alert-danger shadow-sm" role="alert">
+    <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>¡Advertencia!</h4>
+    <p>Estás a punto de **eliminar permanentemente** la venta:</p>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>ID:</strong> {{ venta.id }}</li>
+        <li class="list-group-item"><strong>Cliente:</strong> {{ venta.cliente.nombre }}</li>
+        <li class="list-group-item"><strong>Empleado:</strong> {{ venta.empleado.nombre }}</li>
+        <li class="list-group-item"><strong>Productos:</strong> {% for producto in venta.productos.all %}{{ producto.nombre }} - {{ producto.marca }}{% if not forloop.last %}, {% endif %}{% empty %}Ninguno{% endfor %}</li>
+        <li class="list-group-item"><strong>Total:</strong> ${{ venta.total }}</li>
+        <li class="list-group-item"><strong>Fecha:</strong> {{ venta.fecha_venta|date:"d/m/Y H:i" }}</li>
+    </ul>
+    <hr>
+    <p class="mb-0">¿Estás seguro de que deseas continuar con la eliminación?</p>
+    <form method="post" action="{% url 'borrar_venta' pk=venta.pk %}" class="mt-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2"><i class="bi bi-trash-fill me-2"></i>Sí, Eliminar Venta</button>
+        <a href="{% url 'ver_ventas' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
